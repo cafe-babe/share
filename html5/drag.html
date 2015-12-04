@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>drag</title>
+    <style type="text/css">
+      #div1 {width:350px;height:70px;padding:10px;border:1px solid #aaaaaa;}
+    </style>
+  </head>
+  <body>
+    <script type="text/javascript">
+      function allowDrop(event) {
+        // 阻止对元素的默认处理方式
+        event.preventDefault();
+      }
+
+      function drag(event) {
+        // dataTransfer用于传输数据，像是一个Map，保存被移动目标的id
+        event.dataTransfer.setData("sdf", event.target.id);
+      }
+
+      function drop(event) {
+        event.preventDefault();
+        // data是被移动的id
+        var data = event.dataTransfer.getData("sdf");
+        // target是drop的目标元素
+        event.target.appendChild(document.getElementById(data));
+      }
+
+      function dragover(event) {
+        event.preventDefault();
+        var oldLeft = event.target.style.marginLeft == "" ? 0 : parseInt(event.target.style.marginLeft);
+        var oldTop = event.target.style.marginTop == "" ? 0 : parseInt(event.target.style.marginTop);
+        event.target.style.marginLeft = (oldLeft + event.offsetX) + "px";
+        event.target.style.marginTop = (oldTop + event.offsetY) + "px";
+      }
+    </script>
+
+    <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)">
+
+    </div>
+
+    <img id="drag1" src="./imgs/g.png" draggable="true" ondragstart="drag(event)" width="336" height="69" />
+
+      <img id="drag2" src="./imgs/g.png" draggable="true" ondragstart="drag(event)" ondragover="dragover(event)" width="336" height="69" />
+
+  </body>
+</html>
